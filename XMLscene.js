@@ -33,10 +33,12 @@ class XMLscene extends CGFscene {
         this.materialDefault.setAmbient(0.3, 0.3, 0.3, 1);
         this.materialDefault.setDiffuse(0.6, 0.6, 0.6, 1);
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
-        this.defaultTexture = new CGFtexture(this, "./scenes/images/default.jpg")
+        this.defaultTexture = new CGFtexture(this, "./scenes/images/gold.jpg")
 
 
         this.defaultCube = new MyCube(this,0,1,0,1);
+        this.defaultQuad = new MyQuad(this, 1, 1, 1, 1, 0, 1, 0, 1);
+        this.chessBoard = new Chessboard(this);
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -166,8 +168,14 @@ class XMLscene extends CGFscene {
 
         this.axis.display();
         this.materialDefault.apply();
-        this.defaultCube.display();
+        this.chessBoard.display();
+
+
         this.displayXML();
+
+
+        //this.materialDefault.setTexture(this.defaultTexture);
+        //this.materialDefault.apply();
 
     }
     displayXML(){

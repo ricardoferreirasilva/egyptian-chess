@@ -162,7 +162,69 @@
             <materials>
             </materials>
             <children>
+                
+            </children>
+        </component>
+         <component id="airplane">
+            <transformation>
+                <scale x="1" y="1" z="1" />
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <animations>
+            </animations>
+            <children>
+               <componentref id="patch1"/>
+            </children>
+        </component>
+          <component id="plane1">
+            <transformation>
+                <translate x="3" y="0" z="0"/>
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+            <animations>
+            </animations>
+             <texture id="cloth1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="plane1"/>
+            </children>
+        </component>
+        <component id="patch1">
+            <transformation>
+                <translate x="6" y="0" z="0"/>
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+            <animations>
+            </animations>
+             <texture id="cloth1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="patch1"/>
+            </children>
+        </component>
+        <component id="cyl">
+            <transformation>
+            
+
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="metal1" length_s="2" length_t="2" />
+            <animations>
+            </animations>
+            <children>
+               <primitiveref id="cylinder2"/>
             </children>
         </component>
     </components>
+    
+   
+
 </yas>
