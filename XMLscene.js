@@ -38,6 +38,8 @@ class XMLscene extends CGFscene {
 
         this.defaultCube = new MyCube(this,0,1,0,1);
         this.defaultQuad = new MyQuad(this, 1, 1, 1, 1, 0, 1, 0, 1);
+
+        this.pawn = new Pawn(this,0,0);
         this.chessBoard = new Chessboard(this);
         this.enableTextures(true);
 
@@ -47,8 +49,6 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
-
-        
 
 
     }
@@ -169,7 +169,7 @@ class XMLscene extends CGFscene {
         this.axis.display();
         this.materialDefault.apply();
         this.chessBoard.display();
-
+        //this.defaultCube.display();
 
         this.displayXML();
 

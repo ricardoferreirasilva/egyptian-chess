@@ -31,9 +31,10 @@ class Chessboard {
                 }
 
                 console.log(chosenMaterial);
-                this.chessBoard[x][y] = new Tile(this.scene,x,y,1,chosenMaterial)
+                this.chessBoard[x][y] = new Tile(this.scene,x,y,1,chosenMaterial,undefined)
             }
         }
+        this.chessBoard[1][1].setPiece(new Pawn(this.scene,1,1));
     }
     display() {
         this.scene.pushMatrix();
@@ -44,5 +45,14 @@ class Chessboard {
             }
         }
         this.scene.popMatrix();
+    }
+    movePieceTo(x1,y1,x2,y2){
+        if(this.piece == undefined){
+            console.log("This tile has no piece to play.")
+        }
+        else{
+            //play animation.
+            // after animation is done this.piece undefined.
+        }
     }
 }
