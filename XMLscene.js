@@ -10,14 +10,11 @@ class XMLscene extends CGFscene {
      */
     constructor(myinterface) {
         super();
-
         this.interface = myinterface;
         this.lightValues = {};
         this.animations = [];
-
         this.translations = [];
         this.surfaces = [];
-
     }
 
     /**
@@ -39,7 +36,7 @@ class XMLscene extends CGFscene {
         this.defaultTexture = new CGFtexture(this, "./scenes/images/default.jpg")
 
 
-
+        this.defaultCube = new MyCube(this,0,1,0,1);
         this.enableTextures(true);
 
         this.gl.clearDepth(100.0);
@@ -61,7 +58,6 @@ class XMLscene extends CGFscene {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
     placeCamera() {
-
         let chosenCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));;
         this.graph.views.perspectives.forEach(perspective => {
             if (perspective.id == this.graph.views.default) {
@@ -157,9 +153,6 @@ class XMLscene extends CGFscene {
      */
     display() {
 
-        var i = 0;
-        // ---- BEGIN Background, camera and axis setup
-
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -173,8 +166,12 @@ class XMLscene extends CGFscene {
 
         this.axis.display();
         this.materialDefault.apply();
+        this.defaultCube.display();
+        this.displayXML();
 
-
+    }
+    displayXML(){
+        let i = 0;
         if (this.sceneInited) {
             //Updating light values
             for (var key in this.lightValues) {
@@ -190,12 +187,7 @@ class XMLscene extends CGFscene {
                     this.lights[i].update();
                     i++;
                 }
-            }
-            
-        
-            
-            
-            
+            }   
             //Displaying components
             for (let i = 0; i < this.graph.components.length; i++) {
                 if (this.graph.components[i].id == this.graph.root) {
