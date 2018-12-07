@@ -50,7 +50,8 @@ class XMLscene extends CGFscene {
 
         this.axis = new CGFaxis(this);
 
-
+        //important
+	    this.setPickEnabled(true);
     }
 
     /**
@@ -124,7 +125,9 @@ class XMLscene extends CGFscene {
             }
         }
     }
-
+    unselectPiece(){
+       this.chessBoard.unselectTile();
+    }
 
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
@@ -150,11 +153,28 @@ class XMLscene extends CGFscene {
         }
         this.sceneInited = true;
     }
+    logPicking() {
+        if (this.pickMode == false) {
+            if (this.pickResults != null && this.pickResults.length > 0) {
+                for (var i = 0; i < this.pickResults.length; i++) {
+                    var obj = this.pickResults[i][0];
+                    if (obj) {
+                        // console.log(obj)
+                        var customId = this.pickResults[i][1];
+                        //console.log("Picked object: " + obj + ", with pick id " + customId);
+                        this.chessBoard.selectTile(obj);
+                    }
+                }
+                this.pickResults.splice(0, this.pickResults.length);
+            }
+        }
+    }
     /**
      * Displays the scene.
      */
     display() {
-
+        this.logPicking();
+        this.clearPickRegistration();
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);

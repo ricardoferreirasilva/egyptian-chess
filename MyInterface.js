@@ -42,10 +42,16 @@ class MyInterface extends CGFinterface {
             group.add(this.scene.lightValues,i);
         }
     }
-    processKeyboard( event ){
+    processKeyboard(event){
         if(event.key == "m"){
             this.materialCount++;
             console.log(this.materialCount);
+        }
+    }
+    processMouseDown(event){
+        super.processMouseDown(event);
+        if(event.button == 2){
+            this.scene.unselectPiece();
         }
     }
 }
