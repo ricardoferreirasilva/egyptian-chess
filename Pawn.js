@@ -5,7 +5,8 @@ class Pawn{
         this.y = y;
         this.player = player;
         this.model = new MyCube(this.scene,0,1,0,1);
-        this.animations = [];
+        this.currentAnimation = undefined;
+
 
         this.material1 = new CGFappearance(this.scene);
         this.material1.setAmbient(0.9, 0.3, 0.8, 1);
@@ -21,6 +22,12 @@ class Pawn{
         this.scene.pushMatrix();
         this.scene.scale(0.5,1,0.5)
         this.scene.translate(0,0.5,0)
+        if(this.currentAnimation != undefined){
+            if(!this.currentAnimation.finished)
+            {
+                this.currentAnimation.update(this.scene);
+            }
+        }
         if(this.player == 1){
             this.material1.apply();
         }

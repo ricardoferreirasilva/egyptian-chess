@@ -53,5 +53,7 @@ class Tile {
     }
     setPiece(piece){
         this.piece = piece;
+        this.piece.x = this.x;
+        this.piece.y = this.y;
     }
 }
