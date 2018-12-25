@@ -34,7 +34,7 @@ class Chessboard {
                 this.chessBoard[x][y] = new Tile(this.scene, x, y, 1, chosenMaterial, undefined)
             }
         }
-        //player 1
+        // Pawns
         this.chessBoard[1][0].setPiece(new Pawn(this.scene, 1, 0, 1));
         this.chessBoard[1][1].setPiece(new Pawn(this.scene, 1, 1, 1));
         this.chessBoard[1][2].setPiece(new Pawn(this.scene, 1, 2, 1));
@@ -43,16 +43,47 @@ class Chessboard {
         this.chessBoard[1][5].setPiece(new Pawn(this.scene, 1, 5, 1));
         this.chessBoard[1][6].setPiece(new Pawn(this.scene, 1, 6, 1));
         this.chessBoard[1][7].setPiece(new Pawn(this.scene, 1, 7, 1));
+        // Towers
+        this.chessBoard[0][0].setPiece(new Tower(this.scene, 0, 0, 1));
+        this.chessBoard[0][7].setPiece(new Tower(this.scene, 0, 7, 1));
+        //Bishop
+        this.chessBoard[0][2].setPiece(new Bishop(this.scene, 0, 2, 1));
+        this.chessBoard[0][5].setPiece(new Bishop(this.scene, 0, 5, 1));
+        //Horse
+        this.chessBoard[0][1].setPiece(new Horse(this.scene, 0, 1, 1));
+        this.chessBoard[0][6].setPiece(new Horse(this.scene, 0, 6, 1));
+        //Royals
+        this.chessBoard[0][3].setPiece(new Queen(this.scene, 0, 3, 1));
+        this.chessBoard[0][4].setPiece(new King(this.scene, 0, 4, 1));
 
 
 
-
-
-        this.chessBoard[2][2].setPiece(new Pawn(this.scene, 2, 2, 2));
+        // Pawns
+        this.chessBoard[6][0].setPiece(new Pawn(this.scene, 6, 0, 2));
+        this.chessBoard[6][1].setPiece(new Pawn(this.scene, 6, 1, 2));
+        this.chessBoard[6][2].setPiece(new Pawn(this.scene, 6, 2, 2));
+        this.chessBoard[6][3].setPiece(new Pawn(this.scene, 6, 3, 2));
+        this.chessBoard[6][4].setPiece(new Pawn(this.scene, 6, 4, 2));
+        this.chessBoard[6][5].setPiece(new Pawn(this.scene, 6, 5, 2));
+        this.chessBoard[6][6].setPiece(new Pawn(this.scene, 6, 6, 2));
+        this.chessBoard[6][7].setPiece(new Pawn(this.scene, 6, 7, 2));
+        // Towers
+        this.chessBoard[7][0].setPiece(new Tower(this.scene, 7, 0, 2));
+        this.chessBoard[7][7].setPiece(new Tower(this.scene, 7, 7, 2));
+        //Bishop
+        this.chessBoard[7][2].setPiece(new Bishop(this.scene, 0, 2, 2));
+        this.chessBoard[7][5].setPiece(new Bishop(this.scene, 0, 5, 2));
+        //Horse
+        this.chessBoard[7][1].setPiece(new Horse(this.scene, 7, 1, 2));
+        this.chessBoard[7][6].setPiece(new Horse(this.scene, 7, 6, 2));
+        //Royals
+        this.chessBoard[7][3].setPiece(new Queen(this.scene, 7, 3, 2));
+        this.chessBoard[7][4].setPiece(new King(this.scene, 7, 4, 2));
 
         this.currentSelectedTile = undefined;
         this.currentPlayer = 1;
         this.animationON = false;
+        this.moveStack = [];
     }
     display() {
         this.scene.pushMatrix();
@@ -69,25 +100,32 @@ class Chessboard {
     selectTile(tile) {
         if (!this.animationON) {
             if (tile.piece === undefined) {
-                //console.log("This tile has no piece.")
                 if (this.currentSelectedTile !== undefined) {
                     let set = this.currentSelectedTile.piece.getMoveset(this.chessBoard);
                     let valid = validateMove(tile.x, tile.y, set);
                     if (valid) {
+                        //Make a move.
                         let x = this.currentSelectedTile.x;
                         let y = this.currentSelectedTile.y
-                        console.log(x + " " + y)
-                        console.log(tile.x + " " + tile.y)
-                        let differencePair = { x: (tile.x - x), y: 0, z: (tile.y - y) };
-                        console.log(differencePair);
+
+                        let differencePair = { x: (tile.x - x)*2, y: 0, z: (tile.y - y)*2 };
+                        console.log(differencePair)
+                        //Adding animation.
                         this.currentSelectedTile.piece.currentAnimation = new LinearAnimation(1, [{ x: 0, y: 0, z: 0 }, { x: 0, y: 2, z: 0 }, { x: differencePair.x, y: 2, z: differencePair.z }, differencePair]);
                         this.animationON = true;
+
+                        //Register the move.
+                        this.moveStack.push({ type: "move", from: [x, y], to: [tile.x, tile.y] });
+                        console.log(this.moveStack);
+
                         setTimeout(() => {
                             let currentPiece = this.currentSelectedTile.piece;
                             this.currentSelectedTile.piece = undefined
                             tile.setPiece(currentPiece);
                             this.animationON = false;
                             this.unselectTile();
+                            this.changePlayer();
+                            console.log(this.currentPlayer)
                         }, 1000);
                     }
                 }
@@ -96,7 +134,6 @@ class Chessboard {
                 }
             }
             else {
-                console.log(tile.piece.constructor.name)
                 if (tile.piece.player == this.currentPlayer) {
                     this.unselectTile();
                     this.currentSelectedTile = tile;
@@ -104,6 +141,8 @@ class Chessboard {
                     let killset = set.kill;
                     for (let i = 0; i < killset.length; i++) {
                         let position = killset[i];
+                        console.log(position);
+                        console.log(this.chessBoard[position[0]][position[1]])
                         this.chessBoard[position[0]][position[1]].materialState = 4;
 
                     }
@@ -115,13 +154,43 @@ class Chessboard {
                     }
                 }
                 else {
-                    console.log("belongs to enemy.")
+                    //If we already selected a piece.
+                    if (this.currentSelectedTile !== undefined) {
+                        let set = this.currentSelectedTile.piece.getMoveset(this.chessBoard);
+                        let valid = validateKill(tile.x, tile.y, set);
+                        if (valid) {
+                            //Make a move.
+                            let x = this.currentSelectedTile.x;
+                            let y = this.currentSelectedTile.y
+                            let differencePair = { x: (tile.x - x), y: 0, z: (tile.y - y) };
+                            //Adding animation.
+                            this.currentSelectedTile.piece.currentAnimation = new LinearAnimation(1, [{ x: 0, y: 0, z: 0 }, { x: 0, y: 2, z: 0 }, { x: differencePair.x, y: 2, z: differencePair.z }, differencePair]);
+                            this.animationON = true;
+                            //Register the move.
+                            this.moveStack.push({ type: "eat", from: [x, y], to: [tile.x, tile.y] });
+
+                            setTimeout(() => {
+                                let currentPiece = this.currentSelectedTile.piece;
+                                this.currentSelectedTile.piece = undefined
+                                tile.setPiece(currentPiece);
+                                this.animationON = false;
+                                this.unselectTile();
+                                this.changePlayer();
+                                console.log(this.currentPlayer)
+                            }, 1000);
+                        }
+
+                    }
+                    //No piece currently selected.
+                    else {
+                        console.log("belongs to enemy.")
+                    }
                 }
             }
         }
     }
     unselectTile() {
-        if(!this.animationON){
+        if (!this.animationON) {
             this.currentSelectedTile = undefined;
             for (let x = 0; x < 8; x++) {
                 for (let y = 0; y < 8; y++) {
@@ -139,6 +208,10 @@ class Chessboard {
             // after animation is done this.piece undefined.
         }
     }
+    changePlayer() {
+        if (this.currentPlayer == 1) this.currentPlayer = 2;
+        else this.currentPlayer = 1;
+    }
 }
 
 function insideBoard(x, y) {
@@ -153,6 +226,15 @@ function insideBoard(x, y) {
 function validateMove(x, y, set) {
     for (let i = 0; i < set.move.length; i++) {
         let pair = set.move[i];
+        if (x == pair[0] && y == pair[1]) {
+            return true;
+        }
+    }
+    return false;
+}
+function validateKill(x, y, set) {
+    for (let i = 0; i < set.kill.length; i++) {
+        let pair = set.kill[i];
         if (x == pair[0] && y == pair[1]) {
             return true;
         }
