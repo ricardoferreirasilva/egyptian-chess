@@ -1,6 +1,5 @@
-/**
-* MyInterface class, creating a GUI interface.
-*/
+
+var chessInterface = new ChessInterface();
 class MyInterface extends CGFinterface {
     /**
      * @constructor
@@ -19,10 +18,23 @@ class MyInterface extends CGFinterface {
         // init GUI. For more information on the methods, check:
         //  http://workshop.chromeexperiments.com/examples/gui
 
+
+        let passScene = this.scene;
+        chessInterface.resetGame = function (){
+            passScene.resetGame();
+            console.log("The game was reset.")
+        };
+        chessInterface.undo = function (){
+            passScene.undoMove();
+        };
         this.gui = new dat.GUI();
-
-        // add a group of controls (and open/expand by defult)
-
+        let f1 = this.gui.addFolder('Game Logic');
+        f1.add(chessInterface, 'currentPlayer').listen();
+        f1.add(chessInterface, 'selectedPiece').listen();
+        f1.add(chessInterface, 'player1Pieces').listen();
+        f1.add(chessInterface, 'player2Pieces').listen();
+        f1.add(chessInterface, 'resetGame');
+        f1.add(chessInterface, 'undo');
         return true;
     }
     changeCamera(camera){

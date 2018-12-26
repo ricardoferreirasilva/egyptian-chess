@@ -38,7 +38,7 @@ class Queen {
     }
     getMoveset(chessBoard) {
         let set = { kill: [], move: [] };
-        for (let z = this.y+1; z < 8; z++) {
+        for (let z = this.y + 1; z < 8; z++) {
             if (insideBoard(this.x, z)) {
                 let tilePiece = chessBoard[this.x][z].piece;
                 if (tilePiece == undefined) {
@@ -49,14 +49,14 @@ class Queen {
                         set.kill.push([this.x, z]);
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
                     }
                 }
             }
 
         }
-        for (let z = this.y-1; z >= 0; z--) {
+        for (let z = this.y - 1; z >= 0; z--) {
             if (insideBoard(this.x, z)) {
                 let tilePiece = chessBoard[this.x][z].piece;
                 if (tilePiece == undefined) {
@@ -67,13 +67,13 @@ class Queen {
                         set.kill.push([this.x, z]);
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
-                    } 
+                    }
                 }
             }
         }
-        for (let z = this.x+1; z < 8; z++) {
+        for (let z = this.x + 1; z < 8; z++) {
             if (insideBoard(z, this.y)) {
                 let tilePiece = chessBoard[z][this.y].piece;
                 if (tilePiece == undefined) {
@@ -84,13 +84,13 @@ class Queen {
                         set.kill.push([z, this.y]);
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
                     }
                 }
             }
         }
-        for (let z = this.x-1; z >= 0; z--) {
+        for (let z = this.x - 1; z >= 0; z--) {
             if (insideBoard(z, this.y)) {
                 let tilePiece = chessBoard[z][this.y].piece;
                 if (tilePiece == undefined) {
@@ -101,82 +101,82 @@ class Queen {
                         set.kill.push([z, this.y])
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
-                    } 
+                    }
                 }
             }
         }
-        for (let z = this.y+1; z < 8; z++) {
+        for (let z = this.y + 1; z < 8; z++) {
             let A = (z - (this.y));
-            if (insideBoard(this.x-A, z)) {
-                let tilePiece = chessBoard[this.x-A][z].piece;
+            if (insideBoard(this.x - A, z)) {
+                let tilePiece = chessBoard[this.x - A][z].piece;
                 if (tilePiece == undefined) {
-                    set.move.push([this.x-A, z])
+                    set.move.push([this.x - A, z])
                 }
                 else {
                     if (tilePiece.player != this.player) {
-                        set.kill.push([this.x-A, z]);
+                        set.kill.push([this.x - A, z]);
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
                     }
                 }
             }
 
         }
-        for (let z = this.y-1; z >= 0; z--) {
+        for (let z = this.y - 1; z >= 0; z--) {
             let A = (z - (this.y));
-            if (insideBoard(this.x-A, z)) {
-                let tilePiece = chessBoard[this.x-A][z].piece;
+            if (insideBoard(this.x - A, z)) {
+                let tilePiece = chessBoard[this.x - A][z].piece;
                 if (tilePiece == undefined) {
-                    set.move.push([this.x-A, z])
+                    set.move.push([this.x - A, z])
                 }
                 else {
                     if (tilePiece.player != this.player) {
-                        set.kill.push([this.x-A, z]);
+                        set.kill.push([this.x - A, z]);
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
-                        break;
-                    } 
-                }
-            }
-        }
-        for (let z = this.x+1; z < 8; z++) {
-            let A = (z - (this.x));
-            if (insideBoard(z, this.y+A)) {
-                let tilePiece = chessBoard[z][this.y+A].piece;
-                if (tilePiece == undefined) {
-                    set.move.push([z, this.y+A])
-                }
-                else {
-                    if (tilePiece.player != this.player) {
-                        set.kill.push([z, this.y+A]);
-                        break;
-                    }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
                     }
                 }
             }
         }
-        for (let z = this.x-1; z >= 0; z--) {
+        for (let z = this.x + 1; z < 8; z++) {
             let A = (z - (this.x));
-            if (insideBoard(z, this.y+A)) {
-                let tilePiece = chessBoard[z][this.y+A].piece;
+            if (insideBoard(z, this.y + A)) {
+                let tilePiece = chessBoard[z][this.y + A].piece;
                 if (tilePiece == undefined) {
-                    set.move.push([z, this.y+A])
+                    set.move.push([z, this.y + A])
                 }
                 else {
                     if (tilePiece.player != this.player) {
-                        set.kill.push([z, this.y+A])
+                        set.kill.push([z, this.y + A]);
                         break;
                     }
-                    else if(tilePiece.player == this.player) {
+                    else if (tilePiece.player == this.player) {
                         break;
-                    } 
+                    }
+                }
+            }
+        }
+        for (let z = this.x - 1; z >= 0; z--) {
+            let A = (z - (this.x));
+            if (insideBoard(z, this.y + A)) {
+                let tilePiece = chessBoard[z][this.y + A].piece;
+                if (tilePiece == undefined) {
+                    set.move.push([z, this.y + A])
+                }
+                else {
+                    if (tilePiece.player != this.player) {
+                        set.kill.push([z, this.y + A])
+                        break;
+                    }
+                    else if (tilePiece.player == this.player) {
+                        break;
+                    }
                 }
             }
         }

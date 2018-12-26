@@ -406,4 +406,10 @@ class XMLscene extends CGFscene {
         }
         newMaterial.apply();
     }
+    resetGame(){
+        this.chessBoard.resetGame();
+    }
+    undoMove(){
+        this.chessBoard.undoMove();
+    }
 }
