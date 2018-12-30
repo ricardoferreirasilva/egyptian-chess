@@ -29,8 +29,6 @@ class Chessboard {
                 else {
                     chosenMaterial = goldMaterial;
                 }
-
-                console.log(chosenMaterial);
                 this.chessBoard[x][y] = new Tile(this.scene, x, y, 1, chosenMaterial, undefined)
             }
         }
@@ -83,11 +81,13 @@ class Chessboard {
         this.currentSelectedTile = undefined;
         this.currentPlayer = 1;
         this.animationON = false;
+        this.replaying = false;
+        this.replayInterval = undefined;
         this.moveStack = [];
     }
     display() {
         this.scene.pushMatrix();
-        //this.scene.translate(-3.5,0,-3.5)
+        this.scene.translate(-3.5,0,-3.5)
         let id = 1;
         for (let x = 0; x < 8; x++) {
             for (let y = 0; y < 8; y++) {
@@ -97,7 +97,7 @@ class Chessboard {
         }
         this.scene.popMatrix();
     }
-    selectTile(tile) {
+    selectTile(tile,replaying = false) {
         if (!this.animationON) {
             if (tile.piece === undefined) {
                 if (this.currentSelectedTile !== undefined) {
@@ -108,15 +108,17 @@ class Chessboard {
                         let x = this.currentSelectedTile.x;
                         let y = this.currentSelectedTile.y
 
-                        let differencePair = { x: (tile.x - x)*2, y: 0, z: (tile.y - y)*2 };
+                        let differencePair = { x: (tile.x - x), y: 0, z: (tile.y - y) };
                         console.log(differencePair)
                         //Adding animation.
                         this.currentSelectedTile.piece.currentAnimation = new LinearAnimation(1, [{ x: 0, y: 0, z: 0 }, { x: 0, y: 2, z: 0 }, { x: differencePair.x, y: 2, z: differencePair.z }, differencePair]);
                         this.animationON = true;
 
                         //Register the move.
-                        this.moveStack.push({ type: "move", from: [x, y], to: [tile.x, tile.y] });
-                        console.log(this.moveStack);
+                        if(!replaying){
+                            this.moveStack.push({ type: "move", from: [x, y], to: [tile.x, tile.y] });
+                        }
+
 
                         setTimeout(() => {
                             let currentPiece = this.currentSelectedTile.piece;
@@ -170,14 +172,17 @@ class Chessboard {
                             this.animationON = true;
                             //Register the move.
                             let eaten = tile.piece;
-                            this.moveStack.push({ type: "eat", from: [x, y], to: [tile.x, tile.y],eaten:eaten });
+                            
+                            if(!replaying){
+                                this.moveStack.push({ type: "eat", from: [x, y], to: [tile.x, tile.y], eaten: eaten });
+                            }
 
                             setTimeout(() => {
                                 //Update interface.
-                                if(this.currentSelectedTile.piece.player == 1){
+                                if (this.currentSelectedTile.piece.player == 1) {
                                     chessInterface.player1Pieces--;
                                 }
-                                else{
+                                else {
                                     chessInterface.player2Pieces--;
                                 }
                                 let currentPiece = this.currentSelectedTile.piece;
@@ -223,7 +228,7 @@ class Chessboard {
         else this.currentPlayer = 1;
         chessInterface.currentPlayer = "Player " + this.currentPlayer;
     }
-    resetGame(){
+    resetGame(resetMoveStack) {
         let egyptTexture = new CGFtexture(this.scene, "./scenes/images/egypt1.jpg")
         let goldTexture = new CGFtexture(this.scene, "./scenes/images/gold.jpg")
 
@@ -249,8 +254,6 @@ class Chessboard {
                 else {
                     chosenMaterial = goldMaterial;
                 }
-
-                console.log(chosenMaterial);
                 this.chessBoard[x][y] = new Tile(this.scene, x, y, 1, chosenMaterial, undefined)
             }
         }
@@ -303,26 +306,54 @@ class Chessboard {
         this.currentSelectedTile = undefined;
         this.currentPlayer = 1;
         this.animationON = false;
-        this.moveStack = [];
+        if(resetMoveStack){
+            this.moveStack = [];
+        }
     }
-    undoMove(){
-        if(this.moveStack.length == 0){
+    undoMove() {
+        if (this.moveStack.length == 0) {
             console.log("No move has been made.");
         }
-        else{
+        else {
             let lastMove = this.moveStack.pop();
-            if(lastMove.type == "move"){
+            if (lastMove.type == "move") {
                 let getPiece = this.chessBoard[lastMove.to[0]][lastMove.to[1]].piece;
                 this.chessBoard[lastMove.to[0]][lastMove.to[1]].piece = undefined;
                 this.chessBoard[lastMove.from[0]][lastMove.from[1]].setPiece(getPiece);
                 this.changePlayer();
             }
-            else if(lastMove.type == "eat"){
+            else if (lastMove.type == "eat") {
                 let getPiece = this.chessBoard[lastMove.to[0]][lastMove.to[1]].piece;
                 this.chessBoard[lastMove.to[0]][lastMove.to[1]].setPiece(lastMove.eaten);
                 this.chessBoard[lastMove.from[0]][lastMove.from[1]].setPiece(getPiece);
                 this.changePlayer();
             }
+        }
+    }
+    replay() {
+        this.resetGame(false);
+        if (!this.replaying) {
+            this.replaying = true;
+            let that = this;
+            this.replayInterval = setInterval(function () {
+                if(that.moveStack.length > 0){
+                    let move = that.moveStack.shift();
+                    let select1 = that.chessBoard[move.from[0]][move.from[1]];
+                    let select2 = that.chessBoard[move.to[0]][move.to[1]];
+                    that.selectTile(select1,true);
+                    that.selectTile(select2,true);
+                    console.log(move)
+                }
+                else{
+                    that.replaying = false;
+                    clearInterval(that.replayInterval);
+                    console.log("Replaying done.")
+                }
+            }, 1500);
+        }
+        else {
+            this.replaying = false;
+            clearInterval(this.replayInterval);
         }
     }
 }

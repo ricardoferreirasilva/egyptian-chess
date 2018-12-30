@@ -4,7 +4,7 @@ class Queen {
         this.x = x;
         this.y = y;
         this.player = player;
-        this.model = new MyCube(this.scene, 0, 1, 0, 1);
+        this.model = new CGFOBJModel(this.scene, 'models/Queen.obj');
         this.currentAnimation = undefined;
 
 
@@ -20,13 +20,12 @@ class Queen {
     }
     display() {
         this.scene.pushMatrix();
-        this.scene.scale(0.5, 1.3, 0.5)
-        this.scene.translate(0, 0.5, 0)
         if (this.currentAnimation != undefined) {
             if (!this.currentAnimation.finished) {
                 this.currentAnimation.update(this.scene);
             }
         }
+        this.scene.translate(0, 0.5, 0)
         if (this.player == 1) {
             this.material1.apply();
         }

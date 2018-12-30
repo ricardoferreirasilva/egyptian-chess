@@ -10,4 +10,7 @@ var ChessInterface = function() {
     this.undo = function() {
         console.log("undo move")
     };
+    this.replay = function() {
+        console.log("replay")
+    };
 };

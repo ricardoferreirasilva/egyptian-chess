@@ -35,7 +35,10 @@ class XMLscene extends CGFscene {
         this.materialDefault.setSpecular(0, 0.2, 0.8, 1);
         this.defaultTexture = new CGFtexture(this, "./scenes/images/gold.jpg")
 
-
+		this.suzanne = new CGFOBJModel(this, 'models/Pawn.obj');
+		this.male = new CGFOBJModel(this, 'models/male.obj');
+        this.navigator = new CGFOBJModel(this, 'models/navigator.obj', true);
+        
         this.defaultCube = new MyCube(this,0,1,0,1);
         this.defaultQuad = new MyQuad(this, 1, 1, 1, 1, 0, 1, 0, 1);
 
@@ -407,9 +410,12 @@ class XMLscene extends CGFscene {
         newMaterial.apply();
     }
     resetGame(){
-        this.chessBoard.resetGame();
+        this.chessBoard.resetGame(true);
     }
     undoMove(){
         this.chessBoard.undoMove();
+    }
+    replay(){
+        this.chessBoard.replay();
     }
 }

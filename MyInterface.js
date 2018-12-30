@@ -27,6 +27,9 @@ class MyInterface extends CGFinterface {
         chessInterface.undo = function (){
             passScene.undoMove();
         };
+        chessInterface.replay = function (){
+            passScene.replay();
+        };
         this.gui = new dat.GUI();
         let f1 = this.gui.addFolder('Game Logic');
         f1.add(chessInterface, 'currentPlayer').listen();
@@ -35,6 +38,7 @@ class MyInterface extends CGFinterface {
         f1.add(chessInterface, 'player2Pieces').listen();
         f1.add(chessInterface, 'resetGame');
         f1.add(chessInterface, 'undo');
+        f1.add(chessInterface, 'replay');
         return true;
     }
     changeCamera(camera){

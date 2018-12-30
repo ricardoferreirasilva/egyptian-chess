@@ -162,13 +162,14 @@
             <materials>
             </materials>
             <children>
-                
+                <componentref id="floor"/>
             </children>
         </component>
          <component id="airplane">
             <transformation>
                 <scale x="1" y="1" z="1" />
                 <translate x="0" y="0" z="0" />
+
             </transformation>
             <materials>
                <material id="mat1" />
@@ -180,16 +181,18 @@
                <componentref id="patch1"/>
             </children>
         </component>
-          <component id="plane1">
+          <component id="floor">
             <transformation>
-                <translate x="3" y="0" z="0"/>
+                <translate x="0" y="0" z="0"/>
+                <scale x="15" y="1" z="15"/>
+                <rotate axis="x" angle="-1.56" />
             </transformation>
             <materials>
                <material id="mat1" />
             </materials>
             <animations>
             </animations>
-             <texture id="cloth1" length_s="2" length_t="2" />
+             <texture id="sand" length_s="1" length_t="1" />
             <children>
                <primitiveref id="plane1"/>
             </children>
