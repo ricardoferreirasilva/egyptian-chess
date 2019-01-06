@@ -33,6 +33,7 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
         let f1 = this.gui.addFolder('Game Logic');
         f1.add(chessInterface, 'currentPlayer').listen();
+        f1.add(chessInterface, 'message').listen();
         f1.add(chessInterface, 'selectedPiece').listen();
         f1.add(chessInterface, 'player1Pieces').listen();
         f1.add(chessInterface, 'player2Pieces').listen();

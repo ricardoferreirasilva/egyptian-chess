@@ -1,5 +1,6 @@
 var ChessInterface = function() {
     this.currentPlayer = 'Player 1';
+    this.message = '';
     this.selectedPiece = "";
     this.player1Pieces = 16;
     this.player2Pieces = 16;

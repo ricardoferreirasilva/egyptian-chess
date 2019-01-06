@@ -172,7 +172,9 @@ class Chessboard {
                             this.animationON = true;
                             //Register the move.
                             let eaten = tile.piece;
-                            
+                            if(tile.piece.constructor.name == "King"){
+                                chessInterface.message = "Player won " + this.currentSelectedTile.piece.player + "!";
+                            }
                             if(!replaying){
                                 this.moveStack.push({ type: "eat", from: [x, y], to: [tile.x, tile.y], eaten: eaten });
                             }

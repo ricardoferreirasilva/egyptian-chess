@@ -138,7 +138,7 @@
             x3="0" y3="0" z3="-1" />
         </primitive >
         <primitive id="cylinder1">
-           <cylinder base="ff" top="ff" height="ff" slices="1" stacks="2" />
+           <cylinder base="2" top="2" height="2" slices="30" stacks="30" />
         </primitive >
         <primitive id="plane1">
            <plane u="1" v="1"/>
@@ -163,6 +163,10 @@
             </materials>
             <children>
                 <componentref id="floor"/>
+                <componentref id="pilar1"/>
+                <componentref id="pilar2"/>
+                <componentref id="pilar3"/>
+                <componentref id="pilar4"/>
             </children>
         </component>
          <component id="airplane">
@@ -195,6 +199,62 @@
              <texture id="sand" length_s="1" length_t="1" />
             <children>
                <primitiveref id="plane1"/>
+            </children>
+        </component>
+         <component id="pilar1">
+            <transformation>
+                 <scale x="0.5" y="5" z="0.5" />
+                 <rotate axis="x" angle="-1.57"/>
+                 <translate x="0" y="20" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
+            </children>
+        </component>
+         <component id="pilar2">
+            <transformation>
+                 <scale x="0.5" y="5" z="0.5" />
+                 <rotate axis="x" angle="-1.57"/>
+                 <translate x="0" y="-20" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
+            </children>
+        </component>
+        <component id="pilar3">
+            <transformation>
+                 <scale x="0.5" y="5" z="0.5" />
+                 <rotate axis="x" angle="-1.57"/>
+                 <translate x="20" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
+            </children>
+        </component>
+          <component id="pilar4">
+            <transformation>
+                 <scale x="0.5" y="5" z="0.5" />
+                 <rotate axis="x" angle="-1.57"/>
+                 <translate x="-20" y="0" z="0" />
+            </transformation>
+            <materials>
+               <material id="mat1" />
+            </materials>
+             <texture id="egypt1" length_s="2" length_t="2" />
+            <children>
+               <primitiveref id="cylinder1"/>
             </children>
         </component>
         <component id="patch1">
